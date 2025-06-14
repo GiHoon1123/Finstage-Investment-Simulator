@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: finsate-investment-simulator
+
+  config:
+    import: optional:properties/env-dev.properties
+
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+
+  swagger-ui:
+    tags-sorter: alpha
+    operations-sorter: method
+    doc-expansion: none
+    path: /docs
+    tag-sorter: alpha
+    display-request-duration: true
+
+  model-and-view-allowed: true

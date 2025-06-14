@@ -1,0 +1,121 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.3.5'
+	id 'io.spring.dependency-management' version '1.1.6'
+	id 'jacoco'
+	id 'com.github.kt3k.coveralls' version '2.12.2' // 이 플러그인 커버리지 콘솔에 출력 가능
+}
+
+group = 'io.dustin'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(21)
+	}
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'mysql:mysql-connector-java:8.0.32'
+	implementation 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.kafka:spring-kafka'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.mockito:mockito-core:5.11.0'
+	testImplementation 'com.h2database:h2'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	// Spring Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// JWT
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// Password Encoding
+	implementation 'org.springframework.security:spring-security-crypto'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
+// ✅ JaCoCo 설정 추가
+jacoco {
+	toolVersion = "0.8.10"
+}
+
+jacocoTestReport {
+	dependsOn test
+	// ./gradlew clean test jacocoTestReport <- 테스트를 초기화하고 새로 테스트를 진행 후 리포트를 작성함
+	reports {
+		html.required.set(true)     // HTML 보고서
+		xml.required = true
+		csv.required.set(true)     // CSV 보고서 필요시 true
+	}
+	doLast {
+		def rawXml = new File("${buildDir}/reports/jacoco/test/jacocoTestReport.xml").text
+
+		// DOCTYPE 제거
+		rawXml = rawXml.replaceAll(/<!DOCTYPE[^>]+>/, "")
+
+		def parser = new XmlSlurper()
+		def report = parser.parseText(rawXml)
+
+		def totalMissed = 0
+		def totalCovered = 0
+
+		report.counter.each {
+			totalMissed += it.@missed.toInteger()
+			totalCovered += it.@covered.toInteger()
+		}
+
+		def total = totalMissed + totalCovered
+		def percentage = total > 0 ? (100 * totalCovered / total).round(2) : 0
+
+		println "\n🧪 총 테스트 커버리지: ${percentage}% (커버된 줄 수: ${totalCovered}, 전체: ${total})"
+	}
+
+
+}
+
+
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			enabled = true
+//			element = 'CLASS'
+			element = 'BUNDLE'
+
+
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				minimum = 0.10 //
+			}
+		}
+	}
+}
+
+check.dependsOn jacocoTestCoverageVerification
