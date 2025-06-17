@@ -26,7 +26,38 @@ springdoc:
     operations-sorter: method
     doc-expansion: none
     path: /docs
-    tag-sorter: alpha
     display-request-duration: true
 
   model-and-view-allowed: true
+
+polling:
+  targets:
+    - symbol: AAPL
+      type: STOCK
+      intervals: [_1m, _2m, _5m, _15m, _30m, _60m, _90m, _1h, _4h, _1d, _5d, _1wk, _1mo, _3mo]
+    - symbol: TSLA
+      type: STOCK
+      intervals: [_1m, _2m, _5m, _15m, _30m, _60m, _90m, _1h, _4h, _1d, _5d, _1wk, _1mo, _3mo]
+    - symbol: GOOGL
+      type: STOCK
+      intervals: [_1m, _2m, _5m, _15m, _30m, _60m, _90m, _1h, _4h, _1d, _5d, _1wk, _1mo, _3mo]
+    - symbol: MSFT
+      type: STOCK
+      intervals: [_1m, _2m, _5m, _15m, _30m, _60m, _90m, _1h, _4h, _1d, _5d, _1wk, _1mo, _3mo]
+    - symbol: NVDA
+      type: STOCK
+      intervals: [_1m, _2m, _5m, _15m, _30m, _60m, _90m, _1h, _4h, _1d, _5d, _1wk, _1mo, _3mo]
+    - symbol: META
+      type: STOCK
+      intervals: [_1m, _2m, _5m, _15m, _30m, _60m, _90m, _1h, _4h, _1d, _5d, _1wk, _1mo, _3mo]
+
+    # 지수 (1분봉만)
+    - symbol: ^GSPC  # S&P 500
+      type: INDEX
+      intervals: [_1m]
+    - symbol: ^DJI   # Dow Jones
+      type: INDEX
+      intervals: [_1m]
+    - symbol: ^IXIC  # Nasdaq
+      type: INDEX
+      intervals: [_1m]
