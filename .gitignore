@@ -1,0 +1,40 @@
+# Java class files
+*.class
+
+# Log files
+*.log
+
+# Compiled JAR files
+*.jar
+*.war
+*.ear
+
+# IDE files (IntelliJ)
+.idea/
+*.iml
+*.iws
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Build output
+/build/
+out/
+target/
+
+# Gradle
+.gradle/
+build/
+
+# Maven
+target/
+
+# Local env files
+.env
+*.local
