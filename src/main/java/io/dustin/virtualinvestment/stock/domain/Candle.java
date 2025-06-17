@@ -1,5 +1,6 @@
 package io.dustin.virtualinvestment.stock.domain;
 
+import lombok.Getter;
 import java.time.Instant;
 
 /**
@@ -16,11 +17,13 @@ import java.time.Instant;
  * 이 Candle 객체는 주식의 1개 캔들(시가, 고가, 저가, 종가, 거래량, 시간)을 표현합니다.
  */
 public record Candle(
-        Instant timestamp, // 캔들의 기준 시간 (UTC)
-        double open,       // 시가
-        double high,       // 고가
-        double low,        // 저가
-        double close,      // 종가
-        long volume        // 거래량
+        String symbol,          // 종목 심볼 (e.g., "AAPL")
+        String interval,        // 차트 간격 (e.g., "1m")
+        Instant timestamp,      // 캔들의 기준 시간 (UTC)
+        double open,            // 시가
+        double high,            // 고가
+        double low,             // 저가
+        double close,           // 종가
+        long volume             // 거래량
 ) {
 }

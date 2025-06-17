@@ -2,6 +2,7 @@ package io.dustin.virtualinvestment.stock.service;
 
 import io.dustin.virtualinvestment.stock.domain.Candle;
 import io.dustin.virtualinvestment.stock.domain.Interval;
+import io.dustin.virtualinvestment.stock.dto.CandleResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -26,7 +27,7 @@ public class WebSocketService {
      * @param interval 주기 (예: 1m, 5m 등)
      * @param candles  전송할 캔들 데이터 목록
      */
-    public void broadcast(String symbol, Interval interval, List<Candle> candles) {
+    public void broadcast(String symbol, Interval interval, List<CandleResponse> candles) {
         String destination = "/topic/stocks/" + symbol + "/" + interval.getValue();
         log.info("🔊 WebSocket 전송: {}", destination); // 로그 추가
         messagingTemplate.convertAndSend(destination, candles);
