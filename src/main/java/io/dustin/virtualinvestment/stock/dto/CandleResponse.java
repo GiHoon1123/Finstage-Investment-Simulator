@@ -43,7 +43,7 @@ public class CandleResponse {
         return CandleResponse.builder()
                 .symbol(symbol)
                 .interval(interval)
-                .timestamp(candle.timestamp())
+                .timestamp(candle.timestamp() != null ? Instant.ofEpochSecond(candle.timestamp()) : null)
                 .open(candle.open())
                 .high(candle.high())
                 .low(candle.low())

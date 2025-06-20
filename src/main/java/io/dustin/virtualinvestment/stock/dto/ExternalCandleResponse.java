@@ -93,10 +93,10 @@ public class ExternalCandleResponse {
                 continue;
             }
 
-            candles.add(new Candle(
+            candles.add(Candle.from(
                     symbol,
                     interval,
-                    Instant.ofEpochSecond(timestamps.get(i)),
+                    timestamps.get(i),
                     opens.get(i),
                     highs.get(i),
                     lows.get(i),
